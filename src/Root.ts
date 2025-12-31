@@ -3,25 +3,41 @@ import {
   useNewComponent,
   useChild,
   Canvas,
-  Physics,
   Vector,
-} from "@hex-engine/2d";
-import Floor from "./Floor";
-import Box from "./Box";
+  SystemFont,
+  Label,
+  useDraw,
+} from '@hex-engine/2d';
+import HexagonalGrid from './logic/entity/hex/HexagonalGrid';
 
 export default function Root() {
   useType(Root);
 
-  const canvas = useNewComponent(() => Canvas({ backgroundColor: "white" }));
-  canvas.fullscreen({ pixelZoom: 3 });
+  const canvas = useNewComponent(() => Canvas({ backgroundColor: 'white' }));
+  canvas.fullscreen();
 
-  useNewComponent(Physics.Engine);
+  useChild(() => HexagonalGrid(new Vector(20, 50)));
+
+  useChild(() => {
+    const font = useNewComponent(() =>
+      SystemFont({ name: 'sans-serif', size: 16, color: 'black' }),
+    );
+
+    const label = useNewComponent(() =>
+      Label({
+        text: 'Left click cell for blue, right for purple, middle for white',
+        font: font,
+      }),
+    );
+
+    useDraw((context) => {
+      label.draw(context, { x: 3, y: font.size});
+    });
+  });
 
   const canvasCenter = new Vector(
     canvas.element.width / 2,
-    canvas.element.height / 2
+    canvas.element.height / 2,
   );
-
-  useChild(() => Floor(canvasCenter.addY(100)));
-  useChild(() => Box(canvasCenter));
 }
+
