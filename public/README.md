@@ -1,0 +1,1 @@
+This will store all static files served as-is (large audio / music files, big maps, whatever)

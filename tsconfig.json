@@ -1,0 +1,5 @@
+{
+  "extends": "hex-engine-scripts/base-tsconfig.json",
+  "files": ["./src/**/*.ts"],
+  "include": ["./src"]
+}
